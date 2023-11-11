@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class='container'>
+    <h1>Создать задачу</h1>
+    <div>
+        <form style='width:400px;' action="" method="post">
+            {{form.csrf_token()}}
+        <div class='mb-3'>
+            <label class='form-label' for='title'>{{form.title.label()}}</label>
+            {{form.title()}}
+        </div>
+            <div class='mb-3'>
+                <label class='form-label' for='description'>{{form.description.label()}}</label>
+                {{form.description()}}
+            </div>
+            {% if get_flashed_messages() %}<div class="alert alert-success" role="alert">{% for msg in get_flashed_messages() %}{{msg}}{% endfor %}</div>{% endif %}
+            <div class='mb-3' style='text-align: center;font-size: 20px;'>
+                <button class='btn btn-primary' type="submit">Создать задачу</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

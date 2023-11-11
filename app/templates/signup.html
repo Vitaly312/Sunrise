@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class='container-flex' style='background-color: aliceblue;'>
+        <h1 style='text-align: center; margin-bottom: 20px;'>Регистрация</h1>
+          <div>
+              <form style='width: 300px; margin-left: auto; margin-right: auto; ' action="" method="post">
+                  {{form.csrf_token()}}
+                  <div class='mb-3'>
+                      <label for='email' class='form-label'>{{form.email.label()}}</label>
+                      {{form.email()}}
+                  </div>
+                  {% if form.email.errors %}<div class="alert alert-danger" role="alert">{% for err in form.email.errors %}{{err}}<br>{% endfor %}</div>{% endif %}
+                  <div class='mb-3'>
+                      <label for='name' class='form-label'>{{form.name.label()}}</label>
+                      {{form.name()}}
+                  </div>
+                  {% if form.name.errors %}<div class="alert alert-danger" role="alert">{% for err in form.name.errors %}{{err}}<br>{% endfor %}</div>{% endif %}
+                <div class='mb-3'>
+                    <label class='form-label'>{{form.gender.label()}}</label>
+                  <div class='form-check'>
+                      {% for choice in form.gender %}
+                      <div class='form-check'>
+                      {{choice(class_="form-check-input")}}
+                      {{choice.label}}
+                      </div>
+                      {% endfor %}
+                      </div>
+                  </div>
+                  <div class='mb-3'>
+                      <label for='password' class='form-label'>{{form.password.label}}</label>
+                      {{form.password}}
+                      <div class='form-text'>8-30 символов, без пробелов и эмодзи</div>
+                  </div>
+                  {% if form.password.errors %}<div class="alert alert-danger" role="alert">{% for err in form.password.errors %}{{err}}<br>{% endfor %}</div>{% endif %}
+                  <div class='mb-3'>
+                      <label for='password2' class='form-label'>{{form.password2.label}}</label>
+                      {{form.password2}}
+                      
+                  </div>
+                  {% if form.password2.errors %}<div class="alert alert-danger" role="alert">{% for err in form.password2.errors %}{{err}}<br>{% endfor %}</div>{% endif %}
+                  <div class='mb-3' style='text-align: center;'>
+                      <button type='submit' class='btn btn-primary mb-3'>Создать аккаунт</button>
+                  </div>
+              </form>
+          </div>
+      </div>
+{% endblock %}

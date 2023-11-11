@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/static/favicon.ico/" type="image/x-icon">
+    <title>{% block title %}Sunrise{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  </head>
+  <body>
+      
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img src="/static/favicon.ico" alt="Logo" width="30" height="auto" class="d-inline-block align-text-top">
+            Sunrise
+          </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Переключатель навигации">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/">Главная</a>
+            </li>
+          </ul>
+            {% if not current_user.is_authenticated %}
+            <div class='btn-group'>
+                <a href='/signup/' class='btn btn-outline-primary'>Создать аккаунт</a>
+                <a href='/login/' class="btn btn-outline-success" type="submit">Войти</a>
+            </div>
+            {% else %}
+            <div class='dropdown' style='margin-right: 50px;'>
+                <button class='btn dropdown-toggle btn-outline-primary' data-bs-toggle='dropdown'>{{' '.join(current_user.name.split()[:2])}}</button>
+                <ul class='dropdown-menu'>
+                    <li><a href='/create_task/' class='dropdown-item'>Добавить задачу</a></li>
+                    <li><a href='/tasks/' class='dropdown-item'>Задачи</a></li>
+                    <li><hr class='drop-divider'></li>
+                    <li><a href='/logout/' class='dropdown-item'>Выйти</a></li>
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+      </div>
+    </nav>
+      {% block content %}
+      {% endblock %}
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+              <script>
+            function delete_task(task_id){
+                var req = new XMLHttpRequest()
+                req.open("DELETE", "/tasks/" + task_id + '/', false);
+                req.send(null);
+                location.reload();
+            }
+            function set_task_done(task_id){
+                var req = new XMLHttpRequest()
+                req.open("POST", "/tasks/" + task_id + '/', false);
+                req.send(null);
+                location.reload();
+            }
+        </script>
+  </body>
+</html>

@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  backend:
+    container_name: sunrise_backend
+    build: .
+    working_dir: /app/
+    command: ["/bin/sh", "wait.sh"]
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    ports:
+      - "33800:3306"
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: 1
+      MYSQL_USER: 'sunrise'
+      MYSQL_PASSWORD: 'sunrise_password'
+      MYSQL_DATABASE: 'sunrise'
+
+  proxy:
+    build: proxy
+    container_name: sunrise_proxy
+    ports:
+      - '80:80'
+    depends_on:
+      - backend
